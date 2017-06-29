@@ -12,14 +12,32 @@
     <link rel="stylesheet" href="style.css">    
   </head>
   <body>
-    <div class="container full-container valign-wrapper brown lighten-5">
+    <div class="container full-container brown lighten-5">
       <div class="row main-row">
         <div class="col s12 m8 offset-m2">
           <div class="card">
             <div class="card-content brown-text text-darken-4">
               <span class="card-title"><img src="images/old-train.svg" alt="silhouette of a train engine" class="svg">Train Times</span>
-              <p>I am a very simple card. I am good at containing small bits of information.
-              I am convenient because I require little markup to use effectively.</p>
+              <p>Making the times ... run on trains.</p>
+
+              <table class="striped responsive-table">
+                <thead>
+                  <tr>
+                      <th>Name</th>
+                      <th>Destination</th>
+                      <th>Frequency (min)</th>
+                      <th>Next Arrival</th>
+                      <th>Min Away</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  <!--content added dynamically from firebase-->
+                </tbody>
+              </table>
+
+
+
             </div>
             <div class="card-action">
               <a href="#">This is a link</a>
@@ -32,6 +50,8 @@
       <div>Train icon by <a href="http://www.flaticon.com/authors/vectorgraphit" title="Vectorgraphit">Vectorgraphit</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
 
     </div> <!--/.full-container-->
+  <!--link Firebase-->
+  <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
   <!--link jQuery-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <!-- link Materialize JavaScript -->
