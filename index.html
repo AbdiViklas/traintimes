@@ -6,19 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!--link reset-->
     <link rel="stylesheet" href="reset.css">
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- link Materialize CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/css/materialize.min.css">
     <!-- link own css -->
     <link rel="stylesheet" href="style.css">    
   </head>
   <body>
-    <div class="container full-container brown lighten-5">
+    <div class="container full-container">
       <div class="row main-row">
         <div class="col s12 m8 offset-m2">
           <div class="card">
+            <div class="card-action">
+              <a href="#add-form">Add a train</a>
+              <a id="background" href="">background</a>
+            </div> <!--/.card-action-->
             <div class="card-content brown-text text-darken-4">
-              <span class="card-title"><img src="images/old-train.svg" alt="silhouette of a train engine" class="svg">Train Times</span>
-              <p>Making the times ... run on trains.</p>
+
+              <div class="card-header brown brown-text text-lighten-5">
+                <span class="card-title"><img src="images/old-train.svg" alt="silhouette of a train engine" class="svg">Train Times</span>
+                <p>Making the times ... run on trains.</p>
+              </div>
 
               <table class="striped responsive-table">
                 <thead>
@@ -35,14 +44,64 @@
                   <!--content added dynamically from firebase-->
                 </tbody>
               </table>
+              
+              <div class="divider"></div>
 
+              <h4>Add a train</h4>
+              <form id="add-form">
+                
+                  <div class="input-field">
+                    <input type="text" id="name" class="validate" required>
+                    <label for="name">Train Name</label>
+                  </div>
+                
+                  <div class="input-field">
+                    <input type="text" id="destination" class="validate" required>
+                    <label for="destination">Destination</label>
+                  </div>
 
+                <p id="daily-q">
+                  Does this train run daily?
+                  <span class="switch">
+                    <label>
+                      No
+                      <input id="daily" type="checkbox" checked>
+                      <span class="lever"></span>
+                      Yes
+                    </label>
+                  </span>
+                </p>
+
+                <div id="datePick">
+                  The first run of the year is on: 
+                  <input id="date" type="date" class="datepicker" placeholder="Pick a date">
+                </div>
+
+                <!--TODO: change width of inline input-->
+                This train runs every:
+                <div class="input-field inline">
+                  <input id="frequency" placeholder="00" type="number" min="0" class="validate two-char">
+                </div>
+                <div class="input-field inline">
+                  <select id="timeVal">
+                    <option value="min" class="lessThanDay" selected>minutes</option>
+                    <option value="hr" class="lessThanDay">hours</option>
+                    <option value="day" id="optionDay" disabled>days</option>
+                  </select>
+                </div>
+
+                <div>
+                  The first run of the day is (in 24-hr time):
+                    <input id="time" type="text" class="timepicker" placeholder="Pick a time">
+                </div>
+                
+
+                <button class="btn-submit btn waves-effect waves-light" type="submit" name="action">Submit
+                  <i class="material-icons right">train</i>
+                </button>
+              </form>
 
             </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
-              <a href="#">This is a link</a>
-            </div> <!--/.card-action-->
           </div>  <!--/.card-->
         </div> <!--/.col-->
       </div> <!--/.row-->
@@ -56,7 +115,7 @@
   <!--link jQuery-->
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <!-- link Materialize JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.99.0/js/materialize.min.js"></script>
   <!--link own JS-->
   <script type="text/javascript" src="script.js"></script>
   </body>

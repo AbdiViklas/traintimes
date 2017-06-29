@@ -1,5 +1,5 @@
 body {
-  background-color: #efebe9;
+  background: #efebe9;
 }
 
 .full-container {
@@ -9,6 +9,10 @@ body {
 .main-row {
   margin-top: 5vh;
   /* TODO: use media queries to vertically center the card on screens large enough to contain it (margin-top: 50%) or set margin-top to 0 (or something small) on screens that don't contian it */
+}
+
+.card-header {
+  padding: 5px;
 }
 
 .svg {
@@ -24,4 +28,27 @@ body {
 
 table thead th {
   font-weight: bold;
+}
+
+.divider {
+  width: 100%;
+  border: 2px solid rgba(160,160,160,0.5);
+  margin: 1rem auto;
+}
+
+.card-action {
+  border-top: 0;
+  border-bottom: 1px solid rgba(160,160,160,0.2);
+}
+
+.btn-submit {
+  display: block;
+}
+
+#daily-q {
+  margin-bottom: 20px;
+}
+
+#datePick {
+  display: none;
 }
