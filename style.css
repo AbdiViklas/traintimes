@@ -1,0 +1,12 @@
+body {
+  background-color: #efebe9;
+}
+
+.full-container {
+  min-height: 100vh;
+}
+
+.main-row {
+  margin-top: 5vh;
+  /* TODO: use media queries to vertically center the card on screens large enough to contain it (margin-top: 50%) or set margin-top to 0 (or something small) on screens that don't contian it */
+}
