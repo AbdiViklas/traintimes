@@ -80,11 +80,11 @@
                 <!--TODO: change width of inline input-->
                 This train runs every:
                 <div class="input-field inline">
-                  <input id="frequency" placeholder="00" type="number" min="0" class="validate two-char">
+                  <input id="frequency" placeholder="00" type="number" min="0" class="validate" required>
                 </div>
                 <div class="input-field inline">
-                  <select id="timeVal">
-                    <option value="min" class="lessThanDay" selected>minutes</option>
+                  <select id="timeVal" class="validate" required>
+                    <option value="min" class="lessThanDay">minutes</option>
                     <option value="hr" class="lessThanDay">hours</option>
                     <option value="day" id="optionDay" disabled>days</option>
                   </select>
@@ -92,7 +92,7 @@
 
                 <div>
                   The first run of the day is (in 24-hr time):
-                    <input id="time" type="text" class="timepicker" placeholder="Pick a time">
+                    <input id="time" type="text" class="timepicker validate" placeholder="Pick a time" required>
                 </div>
                 
 

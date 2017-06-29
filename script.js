@@ -19,7 +19,6 @@ var trainArray = [
     name: "Hogwarts Express",
     destination: "Hogsmeade",
     frequency: 87658,
-    daily: false,
     firstDay: "09 01 2017",
     firstTime: "1100"
   },
@@ -27,7 +26,6 @@ var trainArray = [
     name: "Polar Express",
     destination: "N. Pole",
     frequency: 525600,
-    daily: false,
     firstDay: "12 24 2017",
     firstTime: "2355"
   },
@@ -35,7 +33,6 @@ var trainArray = [
     name: "Orient Express",
     destination: "Istanbul",
     frequency: 525600,
-    daily: true,
     firstDay: "",
     firstTime: "2355"
   },
@@ -59,7 +56,6 @@ $("#background").click(function (e) {
   } else {
     backgroundCount = 0;
   }
-  console.log("backgroundCount is", backgroundCount);
   // card background to white on solid body background; otherwise rgba
   if (backgroundCount === 0) {
     $(".card").css("background-color", "");
@@ -105,4 +101,10 @@ $('.timepicker').pickatime({
     autoclose: false, // automatic close timepicker
     ampmclickable: true, // make AM PM clickable
     aftershow: function(){} //Function for after opening timepicker  
+  });
+
+  $("#add-form").submit(function (e) {
+    e.preventDefault();
+    var dataObj = {};
+    
   });
