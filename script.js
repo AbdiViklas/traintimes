@@ -201,3 +201,5 @@ $("#add-form").submit(function (e) {
 database.ref().on("child_added", function(snapshot){
   buildRow(snapshot.val());
 });
+
+// TODO: build functionality to remove and/or edit entries
