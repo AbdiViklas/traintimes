@@ -98,6 +98,35 @@ $("#background").click(function (e) {
   $("body").css("background", backgrounds[backgroundCount]);
 });
 
+// for some reason Materialize's card-reveal functionality was not working, so open and close are recreated here
+$(".activator").click(function(e){
+  e.preventDefault();
+  $(".card-reveal").css({
+      display: "block"
+    }).velocity("stop", !1).velocity({
+      translateY: "-100%"
+    }, {
+      duration: 300,
+      queue: !1,
+      easing: "easeInOutQuad"
+    })
+});
+$("#closeX").click(function (e) { 
+  e.preventDefault();
+  $(".card-reveal").velocity({
+    translateY: 0
+  }, {
+    duration: 225,
+    queue: !1,
+    easing: "easeInOutQuad",
+    complete: function() {
+      $(this).css({
+        display: "none"
+      })
+    }
+  });
+});
+
 // initialize Materialize's dropdown selector
 $(document).ready(function() {
     $('select').material_select();
@@ -168,6 +197,7 @@ $("#add-form").submit(function (e) {
   $("#timeVal").material_select();
 });
 
+// on page load this listener will fire once for every "child" in the database, syncing the page, and afterwards on every new submission
 database.ref().on("child_added", function(snapshot){
   buildRow(snapshot.val());
 });
