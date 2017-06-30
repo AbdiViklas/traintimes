@@ -204,10 +204,14 @@ database.ref().on("child_added", function(snapshot){
   buildRow(snapshot.val(), snapshot.key);
 });
 
+
 // function to remove entries:
 $(document).on("click", ".delX", function () {
   var parentTr = $(this).parents("tr");
-  // console.log(parentTr.attr("id"))
   database.ref(parentTr.attr("id")).remove(); //remove from Firebase...
-  parentTr.remove(); // and remove from DOM
+});
+
+// ... and remove from DOM
+database.ref().on("child_removed", function(snapshot) {
+  $("#" + snapshot.key).remove();;
 });
