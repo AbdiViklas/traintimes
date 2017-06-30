@@ -14,48 +14,21 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
+// I like the visual simplicity and quick load time of a simple solid color background,
+  // but I'm also a sucker for big gorgeous images. So the best of both worlds!
+  // Page loads with solid background, but on #background click will cycle through two pictures and back to solid.
+// for cycling the backgrounds, an incrementer and an array of css values
 var backgroundCount = 0;
 var backgrounds = ["#efebe9", 
 "#efebe9 url('images/golden_rail.jpg') no-repeat center/cover", 
 "#efebe9 url('images/misty_rail.jpg') no-repeat center/cover"];
 
-var trainArray = [
-  {
-    name: "Hogwarts Express",
-    destination: "Hogsmeade",
-    frequency: 87658,
-    firstDay: "09 01 2017",
-    firstTime: "1100"
-  },
-  {
-    name: "Polar Express",
-    destination: "N. Pole",
-    frequency: 525600,
-    firstDay: "12 24 2017",
-    firstTime: "2355"
-  },
-  {
-    name: "Orient Express",
-    destination: "Istanbul",
-    frequency: 525600,
-    firstDay: "",
-    firstTime: "2355"
-  },
-];
-
-
-/*
-pseudocode for calculating times
-
-take user input and convert to 24-hr
-get current time
-calculate all the departure times for the day (store in local array--or in Firebase array?)
-check for first departure time which is after current time
-*/
-
+// function that accepts an object from Firebase and turns it into a table row.
+// This will be called by child_added once for ever child in the database on load (to sync) and afterwards on every new child_added
 function buildRow(obj) {
   console.log("object received as", obj)
   var newRow = $("<tr>");
+  // since we'll be assembling <td>s a lot, let's make it a function
   function addTd(string) {
     var newTd = $("<td>");
     newTd.text(string);
@@ -64,7 +37,8 @@ function buildRow(obj) {
   addTd(obj.name);
   addTd(obj.destination);
   addTd(obj.frequency);
-  var start, startDate, startTime; // build the start date and time
+  // concatenate the start date and time into a single moment()
+  var start, startDate;
   var daily = false;
   if (obj.firstDay === "") {
     // if firstDay is blank, default to today
@@ -73,17 +47,17 @@ function buildRow(obj) {
   } else {
     startDate = obj.firstDay;
   }
-  startTime = obj.firstTime;
-  start = moment(startDate + " " + startTime, "D MMM, YYYY HH:mm");
+  start = moment(startDate + " " + obj.firstTime, "D MMM, YYYY HH:mm");
   console.log("start:", start);
 
   var now = moment();
   console.log("now:", now);
   var diffFirst = now.diff(start, "minutes");
   console.log("difFirst:", diffFirst);
-  var incrementedTime;
+
   if (diffFirst > 0) { // if start is in the past...
     console.log("in the past");
+    var incrementedTime;
     do {
       incrementedTime = start.add(obj.frequency, "m"); // multiply by frequency...
     } while (now.diff(incrementedTime, "minutes") > 0); // until we reach a time later than present.
@@ -105,6 +79,7 @@ function buildRow(obj) {
   console.log("/////////////////")
 }
 
+// cycle background image/color
 $("#background").click(function (e) { 
   e.preventDefault();
   // iterate repeatedly
@@ -160,7 +135,7 @@ $('.timepicker').pickatime({
     ampmclickable: true, // make AM PM clickable
   });
 
-
+// On form submission, update Firebase (child_added listener below will then update DOM)
 $("#add-form").submit(function (e) {
   e.preventDefault();
   var dataObj = {};
@@ -185,8 +160,12 @@ $("#add-form").submit(function (e) {
   dataObj.firstDay = $("#firstDay").val();
   dataObj.firstTime = $("#firstTime").val();
   database.ref().push(dataObj); // push to Firebase
-  document.getElementById("add-form").reset(); // reset the form--
+  document.getElementById("add-form").reset(); // reset the form
   // take care of re-hiding datepicker, enabling/disabling selector, and re-intializing
+  $("#datePick").hide();
+  $("#optionDay").attr("disabled", "");
+  $(".lessThanDay").removeAttr("disabled");
+  $("#timeVal").material_select();
 });
 
 database.ref().on("child_added", function(snapshot){
