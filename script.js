@@ -23,20 +23,21 @@ var backgrounds = ["#efebe9",
 "#efebe9 url('images/golden_rail.jpg') no-repeat center/cover", 
 "#efebe9 url('images/misty_rail.jpg') no-repeat center/cover"];
 
+// since we'll be assembling <td>s a lot in the buildRow function below, let's make it a separate function for the process.
+// addTd is out here in the global scope so that buildRow can manipulate only parameters passed to it
+function addTd(string, row) {
+  var newTd = $("<td>");
+  newTd.html(string);
+  $(row).append(newTd);
+}
 // function that accepts an object from Firebase and turns it into a table row.
 // This will be called by child_added once for ever child in the database on load (to sync) and afterwards on every new child_added
 function buildRow(obj, key) {
   console.log("object received as", obj)
   var newRow = $("<tr>").attr("id", key); // assign Firebase's unique key for this child as the ID of the row
-  // since we'll be assembling <td>s a lot, let's make it a function
-  function addTd(string) {
-    var newTd = $("<td>");
-    newTd.html(string);
-    newRow.append(newTd);
-  }
-  addTd(obj.name);
-  addTd(obj.destination);
-  addTd(obj.frequency);
+  addTd(obj.name, newRow);
+  addTd(obj.destination, newRow);
+  addTd(obj.frequency, newRow);
   // concatenate the start date and time into a single moment()
   var start, startDate;
   var daily = false;
@@ -69,13 +70,13 @@ function buildRow(obj, key) {
   // outside that if block, we can assume start is in future
   // format "Next Arrival" to display date for future dates, or just time for today
   if (daily) { // set above
-    addTd(start.format("HH:mm")); // name it in Next Arrival, formated as 24-hr time ...
+    addTd(start.format("HH:mm"), newRow); // name it in Next Arrival, formated as 24-hr time...
   } else {
-    addTd(start.format("M/D/YY")); // or else as a day.
+    addTd(start.format("M/D/YY"), newRow); // or else as a day.
   }
-  addTd(diffFirst * -1); // Finally, use the difference (flipped back to a positive integer) for Min Away
+  addTd(diffFirst * -1, newRow); // Finally, use the difference (flipped back to a positive integer) for Min Away
   
-  addTd(`<i class="delX material-icons">delete_forever</i>`);
+  addTd(`<i class="delX material-icons">delete_forever</i>`, newRow);
   $("#table-body").append(newRow);
   console.log("/////////////////")
 }
