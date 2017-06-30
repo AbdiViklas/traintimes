@@ -52,3 +52,7 @@ table thead th {
 #datePick {
   display: none;
 }
+
+.credits-margin {
+  margin: 5% !important;
+}
