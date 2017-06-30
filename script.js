@@ -1,3 +1,6 @@
+// specify globals for the benefit of ESLint
+/* global $, firebase, moment */
+
 // Initialize Firebase
 var config = {
   apiKey: "AIzaSyBypclwUAe-PreKQtB2qekbgsF6km5Xfvg",
@@ -8,6 +11,8 @@ var config = {
   messagingSenderId: "219479184128"
 };
 firebase.initializeApp(config);
+
+var database = firebase.database();
 
 var backgroundCount = 0;
 var backgrounds = ["#efebe9", 
@@ -47,6 +52,34 @@ get current time
 calculate all the departure times for the day (store in local array--or in Firebase array?)
 check for first departure time which is after current time
 */
+
+function buildRow(obj) {
+  console.log("object received as", obj)
+  var newRow = $("<tr>");
+  function addTd(key) {
+    var newTd = $("<td>");
+    newTd.text(obj[key]);
+    newRow.append(newTd);
+  }
+  addTd("name");
+  addTd("destination");
+  addTd("frequency");
+  var start;
+  if (obj.firstDay !== "") {
+    start = moment(obj.firstDay, "D MMM, YYYY");
+  } else {
+    start = moment(obj.firstTime, "HH:mm");
+  }
+  // if first departure is in future, name it in Next Arrival and simply subtract for Min Away
+  // if in past, add multiples of frequency until we reach a time later than present;
+  // then name and subtract
+  addTd("firstTime"); //IMPORTANT: remove; for testing only
+  // delete below
+  var testTd = $("<td>");
+  testTd.text("4");
+  newRow.append(testTd);
+  $("#table-body").append(newRow);
+}
 
 $("#background").click(function (e) { 
   e.preventDefault();
@@ -103,8 +136,32 @@ $('.timepicker').pickatime({
     aftershow: function(){} //Function for after opening timepicker  
   });
 
-  $("#add-form").submit(function (e) {
-    e.preventDefault();
-    var dataObj = {};
-    
-  });
+
+$("#add-form").submit(function (e) {
+  e.preventDefault();
+  var dataObj = {};
+  dataObj.name = $("#name").val();
+  dataObj.destination = $("#destination").val();
+  var frequencyVal = $("#frequency").val();
+  switch ($("#timeVal").val()) {
+    case "min":
+      dataObj.frequency = frequencyVal;
+      break;
+    case "hr":
+      dataObj.frequency = frequencyVal * 60;
+      break;
+    case "day":
+      dataObj.frequency = frequencyVal * 60 * 24;
+      break;
+    default:
+      break;
+  }
+  dataObj.firstDay = $("#firstDay").val();
+  dataObj.firstTime = $("#firstTime").val();
+  database.ref().push(dataObj);
+});
+
+database.ref().on("child_added", function(snapshot){
+  console.log(snapshot.key, snapshot.val());
+  buildRow(snapshot.val());
+});
