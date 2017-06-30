@@ -56,3 +56,8 @@ table thead th {
 .credits-margin {
   margin: 5% !important;
 }
+
+.delX {
+  cursor: pointer;
+  z-index: 100;
+}

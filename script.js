@@ -25,13 +25,13 @@ var backgrounds = ["#efebe9",
 
 // function that accepts an object from Firebase and turns it into a table row.
 // This will be called by child_added once for ever child in the database on load (to sync) and afterwards on every new child_added
-function buildRow(obj) {
+function buildRow(obj, key) {
   console.log("object received as", obj)
-  var newRow = $("<tr>");
+  var newRow = $("<tr>").attr("id", key); // assign Firebase's unique key for this child as the ID of the row
   // since we'll be assembling <td>s a lot, let's make it a function
   function addTd(string) {
     var newTd = $("<td>");
-    newTd.text(string);
+    newTd.html(string);
     newRow.append(newTd);
   }
   addTd(obj.name);
@@ -74,7 +74,8 @@ function buildRow(obj) {
     addTd(start.format("M/D/YY")); // or else as a day.
   }
   addTd(diffFirst * -1); // Finally, use the difference (flipped back to a positive integer) for Min Away
-
+  
+  addTd(`<i class="delX material-icons">delete_forever</i>`);
   $("#table-body").append(newRow);
   console.log("/////////////////")
 }
@@ -199,7 +200,13 @@ $("#add-form").submit(function (e) {
 
 // on page load this listener will fire once for every "child" in the database, syncing the page, and afterwards on every new submission
 database.ref().on("child_added", function(snapshot){
-  buildRow(snapshot.val());
+  buildRow(snapshot.val(), snapshot.key);
 });
 
-// TODO: build functionality to remove and/or edit entries
+// function to remove entries:
+$(document).on("click", ".delX", function () {
+  var parentTr = $(this).parents("tr");
+  // console.log(parentTr.attr("id"))
+  database.ref(parentTr.attr("id")).remove(); //remove from Firebase...
+  parentTr.remove(); // and remove from DOM
+});
