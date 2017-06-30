@@ -74,7 +74,7 @@ function buildRow(obj, key) {
   } else {
     addTd(start.format("M/D/YY"), newRow); // or else as a day.
   }
-  addTd(diffFirst * -1, newRow); // Finally, use the difference (flipped back to a positive integer) for Min Away
+  addTd(start.fromNow(), newRow); // Finally, use the difference (flipped back to a positive integer) for Min Away
   
   addTd(`<i class="delX material-icons">delete_forever</i>`, newRow);
   $("#table-body").append(newRow);
