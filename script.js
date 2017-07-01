@@ -49,12 +49,8 @@ function buildRow(obj, key) {
     startDate = obj.firstDay;
   }
   start = moment(startDate + " " + obj.firstTime, "D MMM, YYYY HH:mm");
-  console.log("start:", start);
-
   var now = moment();
-  console.log("now:", now);
   var diffFirst = now.diff(start, "minutes");
-  console.log("difFirst:", diffFirst);
 
   if (diffFirst > 0) { // if start is in the past...
     console.log("in the past");
@@ -62,7 +58,6 @@ function buildRow(obj, key) {
     do {
       incrementedTime = start.add(obj.frequency, "m"); // multiply by frequency...
     } while (now.diff(incrementedTime, "minutes") > 0); // until we reach a time later than present.
-    console.log("incrementedTime:", incrementedTime);
     console.log("After incrementing from past start time by frequency, the next departure is", incrementedTime.format("M/D/YY, HH:mm"));
     start = incrementedTime; // update start to the next future departure
     diffFirst = now.diff(start, "minutes"); // update diffFirst to new (negative) value
