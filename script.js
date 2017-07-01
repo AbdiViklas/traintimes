@@ -20,8 +20,8 @@ var database = firebase.database();
 // for cycling the backgrounds, an incrementer and an array of css values
 var backgroundCount = 0;
 var backgrounds = ["#efebe9", 
-"#efebe9 url('images/golden_rail.jpg') no-repeat center/cover", 
-"#efebe9 url('images/misty_rail.jpg') no-repeat center/cover"];
+"#efebe9 url('images/golden_rail.jpg') no-repeat fixed center/cover", 
+"#efebe9 url('images/misty_rail.jpg') no-repeat fixed center/cover"];
 
 // since we'll be assembling <td>s a lot in the buildRow function below, let's make it a separate function for the process.
 // addTd is out here in the global scope so that buildRow can manipulate only parameters passed to it
